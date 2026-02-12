@@ -8,13 +8,19 @@
 </head>
 <body id="body">
 
-  <!-- Фоновая текстура (мелкий шум) -->
-  <div class="noise"></div>
+  <!-- Фоновые частицы -->
+  <canvas id="particles"></canvas>
 
-  <!-- Главный текст -->
+  <!-- Глитч-рамка -->
+  <div class="glitch-border"></div>
+
+  <!-- Основной контент -->
   <div class="centered-text">
-    <h1>@tylentless</h1>
-    <p>биография → <a href="https://t.me/tylentlesss" target="_blank">@tylentlesss</a></p>
+    <h1 id="typed-name">@tylentless</h1>
+    <p class="bio-line">биография → <a href="https://t.me/tylentlesss" target="_blank">@tylentlesss</a></p>
+    
+    <!-- Скрытая фраза (появляется при наведении) -->
+    <div class="hidden-message">ты уже давно не спишь</div>
   </div>
 
   <!-- Музыка -->
