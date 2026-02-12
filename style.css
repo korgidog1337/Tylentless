@@ -1,7 +1,7 @@
 :root {
-  --bg: #000;
-  --text: #f0f0f0;
-  --accent: #c5b358; /* золотисто-серый для ссылок */
+  --black: #000000;
+  --white: #f0f0f0;
+  --red: #cc0000; /* цвет крови / тревоги */
 }
 
 * {
@@ -11,53 +11,103 @@
 }
 
 body {
-  background-color: var(--bg);
-  color: var(--text);
-  font-family: 'Segoe UI', 'Courier New', monospace;
+  background-color: var(--black);
+  color: var(--white);
+  font-family: 'Courier New', monospace;
   height: 100vh;
   overflow: hidden;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  letter-spacing: 1px;
 }
 
-canvas#particles {
-  position: absolute;
+/* Шум как в старых VHS записях */
+.noise {
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  z-index: -2;
 }
 
 .centered-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   text-align: center;
-  font-size: 24px;
-  line-height: 1.8;
   max-width: 600px;
   padding: 0 20px;
-  font-weight: 500;
-  letter-spacing: 0.5px;
+  position: relative;
+  z-index: 1;
+}
+
+.centered-text h1 {
+  font-size: 48px;
+  font-weight: 900;
+  margin-bottom: 24px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--white);
+  text-shadow:
+    0 0 8px rgba(255,255,255,0.2),
+    0 0 24px rgba(204, 0, 0, 0.3);
+  animation: glitch 4s infinite alternate-reverse;
+}
+
+.centered-text p {
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 2px;
+  color: rgba(240, 240, 240, 0.7);
 }
 
 .centered-text a {
-  color: var(--accent);
+  color: var(--red);
   text-decoration: none;
   font-weight: 600;
-  transition: opacity 0.3s;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.centered-text a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--red);
+  transition: width 0.4s ease;
 }
 
 .centered-text a:hover {
-  opacity: 0.8;
-  text-decoration: underline;
+  opacity: 0.9;
+  text-shadow: 0 0 12px rgba(204, 0, 0, 0.6);
+}
+
+.centered-text a:hover::after {
+  width: 100%;
+}
+
+/* Эффект "глитч" как в opening credits Fight Club */
+@keyframes glitch {
+  0% { text-shadow: 0 0 8px rgba(255,255,255,0.2); }
+  2% { text-shadow: -2px 0 var(--red), 2px 0 #00ff00; }
+  4% { text-shadow: 2px 0 #00ff00, -2px 0 var(--red); }
+  6% { text-shadow: 0 0 8px rgba(255,255,255,0.2); }
+  100% { text-shadow: 0 0 12px rgba(255,255,255,0.3); }
 }
 
 /* Адаптивность */
 @media (max-width: 600px) {
-  .centered-text {
-    font-size: 20px;
-    padding: 0 15px;
+  .centered-text h1 {
+    font-size: 32px;
+    letter-spacing: 2px;
+  }
+  .centered-text p {
+    font-size: 16px;
   }
 }
